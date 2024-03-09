@@ -61,6 +61,32 @@ int main()
     // For example, printing it to console to verify
     std::cout << vertexShaderSource << std::endl;
 
+    std::string filePath2 = "source.fs";
+    std::ifstream fileStream2(filePath2);
+    std::string fileContent2;
+
+    if (fileStream) {
+        // Use stringstream to read the file's contents into a string
+        std::stringstream buffer;
+        buffer << fileStream2.rdbuf();
+        fileContent2 = buffer.str();
+
+        // Close the file after reading
+        fileStream2.close();
+    }
+    else {
+        std::cerr << "Could not open file: " << filePath2 << std::endl;
+        return -1;
+    }
+
+    // Convert the read content into a const char*
+    const char* fragmentShaderSource = fileContent2.c_str();
+
+    // Use vertexShaderSource as needed...
+    // For example, printing it to console to verify
+    std::cout << vertexShaderSource << std::endl;
+    std::cout << fragmentShaderSource << std::endl;
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
