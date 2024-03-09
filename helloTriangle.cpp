@@ -3,13 +3,18 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 
+using namespace std;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
 
 const char* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
@@ -31,6 +36,31 @@ const char* fragmentShaderSource = "#version 330 core\n"
 
 int main()
 {
+    std::string filePath = "source.vs";
+    std::ifstream fileStream(filePath);
+    std::string fileContent;
+
+    if (fileStream) {
+        // Use stringstream to read the file's contents into a string
+        std::stringstream buffer;
+        buffer << fileStream.rdbuf();
+        fileContent = buffer.str();
+
+        // Close the file after reading
+        fileStream.close();
+    }
+    else {
+        std::cerr << "Could not open file: " << filePath << std::endl;
+        return -1;
+    }
+
+    // Convert the read content into a const char*
+    const char* vertexShaderSource = fileContent.c_str();
+
+    // Use vertexShaderSource as needed...
+    // For example, printing it to console to verify
+    std::cout << vertexShaderSource << std::endl;
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
